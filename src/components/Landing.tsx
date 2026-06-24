@@ -4,14 +4,32 @@ import "./styles/Landing.css";
 const Landing = ({ children }: PropsWithChildren) => {
   return (
     <>
-      {/* ⚡ SMART SCALE PATCH: Animation script ko chhede bina mobile par text overlap 100% khatam karega */}
+      {/* ⚡ BULLETPROOF CSS OVERRIDE: Yeh selectors GSAP ke inline styles ko override karke text ko mobile par chota rakhenge */}
       <style>{`
         @media (max-width: 768px) {
-          .landing-info {
-            transform: scale(0.75) !important;
-            transform-origin: center center !important;
-            margin-top: -10px !important;
-            width: 100% !important;
+          div.landing-section div.landing-container div.landing-info h3 {
+            font-size: 14px !important;
+            margin-bottom: 5px !important;
+          }
+          div.landing-section div.landing-container div.landing-info h2,
+          div.landing-section div.landing-container div.landing-info .landing-info-h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+            height: auto !important;
+          }
+          div.landing-section div.landing-container div.landing-info div.landing-h2-1,
+          div.landing-section div.landing-container div.landing-info div.landing-h2-2,
+          div.landing-section div.landing-container div.landing-info div.landing-h2-info,
+          div.landing-section div.landing-container div.landing-info div.landing-h2-info-1 {
+            font-size: 24px !important;
+            position: relative !important;
+            left: auto !important;
+            top: auto !important;
+            transform: none !important;
+            display: inline-block !important;
+            width: auto !important;
+            margin: 0 4px !important;
+            line-height: 1.3 !important;
           }
         }
       `}</style>
