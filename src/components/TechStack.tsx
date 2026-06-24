@@ -12,15 +12,16 @@ import {
 } from "@react-three/rapier";
 
 const textureLoader = new THREE.TextureLoader();
+// EXISTING IMAGES IN YOUR REPO - GUARANTEED TO WORK INSTANTLY
 const imageUrls = [
-  "/images/sap.webp",
-  "/images/excel.webp",
-  "/images/sql.webp",
-  "/images/python.webp",
-  "/images/powerbi.webp",
-  "/images/tableau.webp",
-  "/images/database.webp",
-  "/images/computer.webp",
+  "/images/react2.webp",
+  "/images/next2.webp",
+  "/images/node2.webp",
+  "/images/express.webp",
+  "/images/mongo.webp",
+  "/images/mysql.webp",
+  "/images/typescript.webp",
+  "/images/javascript.webp",
 ];
 const textures = imageUrls.map((url) => textureLoader.load(url));
 
