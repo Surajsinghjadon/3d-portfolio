@@ -2,26 +2,14 @@ import { PropsWithChildren } from "react";
 import "./styles/Landing.css";
 
 const Landing = ({ children }: PropsWithChildren) => {
+  // Mobile par text ko takrane se rokne ke liye ek uniform style array
+  const responsiveStyle = {
+    fontSize: "clamp(18px, 5.5vw, 32px)",
+    lineHeight: "1.2",
+  };
+
   return (
     <>
-      {/* ⚡ MOBILE RESPONSIVE CSS PATCH: Animation tode bina text overlap ko mobile par theek karega */}
-      <style>{`
-        @media (max-width: 768px) {
-          .landing-info h2, 
-          .landing-info-h2,
-          .landing-h2-1, 
-          .landing-h2-2, 
-          .landing-h2-info, 
-          .landing-h2-info-1 {
-            font-size: 6vw !important;
-            line-height: 1.2 !important;
-          }
-          .landing-info {
-            margin-top: 10px !important;
-          }
-        }
-      `}</style>
-
       <div className="landing-section" id="landingDiv">
         <div className="landing-container">
           <div className="landing-intro">
@@ -32,15 +20,19 @@ const Landing = ({ children }: PropsWithChildren) => {
               <span>JADON</span>
             </h1>
           </div>
+          
           <div className="landing-info">
             <h3>Data Analyst &</h3>
-            <h2 className="landing-info-h2">
-              <div className="landing-h2-1">Computer</div>
-              <div className="landing-h2-2">Professional</div>
+            
+            {/* 🎯 INLINE RESPONSIVE SIZING: Bypasses compiler and forces text to shrink on mobile */}
+            <h2 className="landing-info-h2" style={responsiveStyle}>
+              <div className="landing-h2-1" style={{ fontSize: "inherit" }}>Computer</div>
+              <div className="landing-h2-2" style={{ fontSize: "inherit" }}>Professional</div>
             </h2>
-            <h2>
-              <div className="landing-h2-info">Professional</div>
-              <div className="landing-h2-info-1">Computer</div>
+            
+            <h2 style={responsiveStyle}>
+              <div className="landing-h2-info" style={{ fontSize: "inherit" }}>Professional</div>
+              <div className="landing-h2-info-1" style={{ fontSize: "inherit" }}>Computer</div>
             </h2>
           </div>
         </div>
