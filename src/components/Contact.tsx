@@ -78,15 +78,15 @@ const Contact = () => {
 
     if (score <= 2) {
       setStrength("Weak");
-      setStrengthColor("#ef4444"); // Red Base Node
+      setStrengthColor("#ef4444"); 
       setStrengthWidth("33%");
     } else if (score === 3 || score === 4) {
       setStrength("Medium");
-      setStrengthColor("#eab308"); // Yellow Middle Node
+      setStrengthColor("#eab308"); 
       setStrengthWidth("66%");
     } else {
       setStrength("Strong");
-      setStrengthColor("#22c55e"); // Green Master Node
+      setStrengthColor("#22c55e"); 
       setStrengthWidth("100%");
     }
   };
@@ -136,6 +136,45 @@ const Contact = () => {
     setCurrentUserEmail(`verified_partner@${platform.toLowerCase()}.com`);
     setIsAdmin(false);
     setAuthScreen("authenticated");
+  };
+
+  // Recruiter Action: Request Access Token
+  const raiseAccessRequest = (docLabel: string, fileName: string) => {
+    const existing = allRequests.find(r => r.userEmail === currentUserEmail && r.fileName === fileName);
+    if (existing) {
+      alert(`⚠️ Request already exists! Current Status: ${existing.status.toUpperCase()}`);
+      return;
+    }
+
+    const newRequest: RequestItem = {
+      id: "req_" + Date.now(),
+      userEmail: currentUserEmail,
+      docLabel: docLabel,
+      fileName: fileName,
+      status: "pending",
+      timestamp: new Date().toLocaleDateString()
+    };
+
+    const updated = [newRequest, ...allRequests];
+    saveToDB(updated);
+    alert(`🚀 Request for ${docLabel} sent to Suraj Bhaiya's account!`);
+  };
+
+  // Recruiter Action: Open Document if Approved
+  const openDocument = (fileName: string, status: string) => {
+    if (status === "approved") {
+      window.open(`/${fileName}`, "_blank");
+    } else if (status === "pending") {
+      alert("⏳ Access Pending! Suraj bhaiya ne abhi is file ko approve nahi kiya hai.");
+    } else {
+      alert("❌ Access Revoked! Suraj bhaiya ne is file ka access delete kar diya hai.");
+    }
+  };
+
+  // Admin Actions: Approve / Pending / Delete
+  const updateStatusByAdmin = (id: string, newStatus: "approved" | "pending" | "deleted") => {
+    const updated = allRequests.map(r => r.id === id ? { ...r, status: newStatus } : r);
+    saveToDB(updated);
   };
 
   return (
@@ -191,21 +230,16 @@ const Contact = () => {
           </div>
         )}
 
-        {/* ---------------- VIEW 2: ADVANCED SIGN UP COMPONENT WITH OTP & METER ---------------- */}
+        {/* ---------------- VIEW 2: ADVANCED SIGN UP COMPONENT ---------------- */}
         {authScreen === "signup" && (
           <div style={{ maxWidth: "440px", margin: "20px auto", background: "#0f172a", padding: "30px", borderRadius: "12px", border: "1px solid #334155" }}>
             <h4 style={{ color: "#fff", margin: "0 0 4px 0", fontSize: "18px", textAlign: "center" }}>Create Corporate Account</h4>
             <p style={{ color: "#94a3b8", fontSize: "12px", textAlign: "center", margin: "0 0 20px 0" }}>Register verified security credentials</p>
 
             <form onSubmit={handleAuthSubmit} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-              
-              {/* Name Input */}
               <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} placeholder="Full Name" required style={{ width: "100%", background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff" }} />
-              
-              {/* Email Input */}
               <input type="email" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder="Email Address" required style={{ width: "100%", background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff" }} />
               
-              {/* OTP Validation Engine Row */}
               <div style={{ display: "flex", gap: "8px" }}>
                 <input type="text" value={otpInput} onChange={(e) => setOtpInput(e.target.value)} placeholder="Enter 6-Digit OTP" required style={{ flex: 1, background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff" }} />
                 <button type="button" onClick={handleSendOtp} disabled={otpLoading} style={{ background: otpSent ? "#475569" : "#0284c7", color: "#fff", border: "none", padding: "0 14px", borderRadius: "6px", cursor: "pointer", fontSize: "12px", fontWeight: "600" }}>
@@ -213,11 +247,8 @@ const Contact = () => {
                 </button>
               </div>
 
-              {/* Password Vector Field with Strength Tracking */}
               <div>
                 <input type="password" value={passwordInput} onChange={(e) => checkPasswordStrength(e.target.value)} placeholder="Create Secure Password" required style={{ width: "100%", background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff" }} />
-                
-                {/* 📊 Animated Strength Indicator */}
                 {strength && (
                   <div style={{ marginTop: "6px" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", marginBottom: "3px" }}>
@@ -231,9 +262,7 @@ const Contact = () => {
                 )}
               </div>
 
-              {/* Confirm Password Field */}
               <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Secure Password" required style={{ width: "100%", background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff" }} />
-
               <button type="submit" style={{ background: "#22c55e", color: "#fff", border: "none", padding: "10px", borderRadius: "6px", cursor: "pointer", fontWeight: "600", marginTop: "6px" }}>Register New Node</button>
             </form>
 
@@ -243,23 +272,22 @@ const Contact = () => {
           </div>
         )}
 
-        {/* ---------------- VIEW 3: RECOVERY SYSTEM (FORGOT) ---------------- */}
+        {/* ---------------- VIEW 3: RECOVERY SYSTEM ---------------- */}
         {authScreen === "forgot" && (
           <div style={{ maxWidth: "420px", margin: "20px auto", background: "#0f172a", padding: "30px", borderRadius: "12px", border: "1px solid #334155", textAlign: "center" }}>
             <MdEmail size={36} color="#eab308" />
             <h4 style={{ color: "#fff", margin: "10px 0 4px 0", fontSize: "18px" }}>Recover Account Matrix</h4>
             <p style={{ color: "#94a3b8", fontSize: "12px", margin: "0 0 20px 0" }}>Enter your email to clear connection path tokens.</p>
 
-            <form onSubmit={(e) => { e.preventDefault(); alert("📨 Recovery token sent! Verify inbox sub-folders."); setAuthScreen("signin"); }} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            <form onSubmit={(e) => { e.preventDefault(); alert("📨 Recovery token sent!"); setAuthScreen("signin"); }} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               <input type="email" placeholder="Enter Registered Email" required style={{ width: "100%", background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff", textAlign: "center" }} />
               <button type="submit" style={{ background: "#eab308", color: "#000", border: "none", padding: "10px", borderRadius: "6px", cursor: "pointer", fontWeight: "600" }}>Send Password Reset Link</button>
             </form>
-
             <p onClick={() => setAuthScreen("signin")} style={{ color: "#38bdf8", fontSize: "13px", cursor: "pointer", textDecoration: "underline", marginTop: "20px", marginBottom: 0 }}>Back to Authorization Log</p>
           </div>
         )}
 
-        {/* ---------------- VIEW 4: AUTHENTICATED CONTROL TIERS ---------------- */}
+        {/* ---------------- VIEW 4: AUTHENTICATED SYSTEM TIERS ---------------- */}
         {authScreen === "authenticated" && (
           <div>
             {isAdmin ? (
@@ -288,9 +316,9 @@ const Contact = () => {
                             <span style={{ color: req.status === "approved" ? "#22c55e" : req.status === "pending" ? "#eab308" : "#ef4444" }}>● {req.status.toUpperCase()}</span>
                           </td>
                           <td style={{ padding: "10px", display: "flex", gap: "6px" }}>
-                            <button onClick={() => window.updateStatusByAdmin(req.id, "approved")} style={{ background: "#22c55e", color: "#fff", border: "none", padding: "3px 8px", borderRadius: "4px", fontSize: "11px", cursor: "pointer" }}>Approve</button>
-                            <button onClick={() => window.updateStatusByAdmin(req.id, "pending")} style={{ background: "#eab308", color: "#000", border: "none", padding: "3px 8px", borderRadius: "4px", fontSize: "11px", cursor: "pointer" }}>Hold</button>
-                            <button onClick={() => window.updateStatusByAdmin(req.id, "deleted")} style={{ background: "#ef4444", color: "#fff", border: "none", padding: "3px 8px", borderRadius: "4px", fontSize: "11px", cursor: "pointer" }}>Delete</button>
+                            <button onClick={() => updateStatusByAdmin(req.id, "approved")} style={{ background: "#22c55e", color: "#fff", border: "none", padding: "3px 8px", borderRadius: "4px", fontSize: "11px", cursor: "pointer" }}>Approve</button>
+                            <button onClick={() => updateStatusByAdmin(req.id, "pending")} style={{ background: "#eab308", color: "#000", border: "none", padding: "3px 8px", borderRadius: "4px", fontSize: "11px", cursor: "pointer" }}>Hold</button>
+                            <button onClick={() => updateStatusByAdmin(req.id, "deleted")} style={{ background: "#ef4444", color: "#fff", border: "none", padding: "3px 8px", borderRadius: "4px", fontSize: "11px", cursor: "pointer" }}>Delete</button>
                           </td>
                         </tr>
                       ))}
@@ -315,10 +343,10 @@ const Contact = () => {
                         </div>
                         <div>
                           {!userReq ? (
-                            <button onClick={() => window.raiseAccessRequest(doc.label, doc.fileName)} style={{ background: "#1e293b", color: "#38bdf8", border: "1px solid #38bdf8", padding: "6px 12px", borderRadius: "4px", fontSize: "12px", cursor: "pointer" }}>Send Access Request</button>
+                            <button onClick={() => raiseAccessRequest(doc.label, doc.fileName)} style={{ background: "#1e293b", color: "#38bdf8", border: "1px solid #38bdf8", padding: "6px 12px", borderRadius: "4px", fontSize: "12px", cursor: "pointer" }}>Send Access Request</button>
                           ) : (
                             <div>
-                              {userReq.status === "approved" && <button onClick={() => window.openDocument(doc.fileName, "approved")} style={{ background: "#22c55e", color: "#fff", border: "none", padding: "6px 12px", borderRadius: "4px", fontSize: "12px", cursor: "pointer" }}>Download File</button>}
+                              {userReq.status === "approved" && <button onClick={() => openDocument(doc.fileName, "approved")} style={{ background: "#22c55e", color: "#fff", border: "none", padding: "6px 12px", borderRadius: "4px", fontSize: "12px", cursor: "pointer" }}>Download File</button>}
                               {userReq.status === "pending" && <span style={{ color: "#eab308", fontSize: "12px" }}><MdHourglassTop /> Pending Approval</span>}
                               {userReq.status === "deleted" && <span style={{ color: "#ef4444", fontSize: "12px" }}><MdCancel /> Access Revoked</span>}
                             </div>
@@ -333,22 +361,7 @@ const Contact = () => {
           </div>
         )}
 
-        {/* Global Access Mapping Scripts */}
-        {(() => {
-          window.raiseAccessRequest = (docLabel: string, fileName: string) => {
-            const existing = allRequests.find(r => r.userEmail === currentUserEmail && r.fileName === fileName);
-            if (existing) return;
-            const newRequest: RequestItem = { id: "req_" + Date.now(), userEmail: currentUserEmail, docLabel, fileName, status: "pending", timestamp: new Date().toLocaleDateString() };
-            saveToDB([newRequest, ...allRequests]);
-          };
-          window.openDocument = (fileName: string, status: string) => { if (status === "approved") window.open(`/${fileName}`, "_blank"); };
-          window.updateStatusByAdmin = (id: string, newStatus: "approved" | "pending" | "deleted") => {
-            const updated = allRequests.map(r => r.id === id ? { ...r, status: newStatus } : r);
-            saveToDB(updated);
-          };
-        })()}
-
-        {/* Verified Public Badges Grid Row Section */}
+        {/* Public Badges Grid Row Section */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px", marginTop: "20px" }}>
           <div style={{ background: "#111827", padding: "15px", borderRadius: "8px" }}>
             <h5 style={{ margin: "0 0 10px 0", color: "#94a3b8" }}>Public Data Modules</h5>
@@ -357,12 +370,12 @@ const Contact = () => {
           </div>
           <div style={{ background: "#111827", padding: "15px", borderRadius: "8px" }}>
             <h5 style={{ margin: "0 0 10px 0", color: "#94a3b8" }}>Pithampur Center Matrix</h5>
-            <p style={{ margin: 0, fontSize: "13px", color: "#64748b" }}>Corporate Base: Madhya Pradesh, India</p>
+            <p style={{ margin: 0, fontSize: "13px", color: "#64748b" }}>Corporate Base: Pithampur, Madhya Pradesh</p>
             <p style={{ margin: "4px 0 0 0", fontSize: "13px", color: "#64748b" }}>Contact Line: +91 78795 95821</p>
           </div>
         </div>
 
-        {/* Structural Identity Infrastructure Footer */}
+        {/* Legal Structural Footer */}
         <div style={{ marginTop: "40px", borderTop: "1px solid #1e293b", paddingTop: "15px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <h2 style={{ fontSize: "13px", margin: 0, color: "#64748b" }}>System Platform Architecture by <span>Suraj Singh Jadon</span></h2>
           <h5 style={{ margin: 0, display: "flex", alignItems: "center", gap: "4px", color: "#475569" }}><MdCopyright /> 2026</h5>
