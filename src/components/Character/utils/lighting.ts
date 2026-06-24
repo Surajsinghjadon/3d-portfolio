@@ -19,7 +19,8 @@ const setLighting = (scene: THREE.Scene) => {
   scene.add(pointLight);
 
   new RGBELoader()
-    .setPath("/models/")
+    // 🎯 FIXED PATH: Base path /Portfolio/ ke sath lighting map load hoga
+    .setPath("/Portfolio/models/")
     .load("char_enviorment.hdr?v=2", function (texture) {
       texture.mapping = THREE.EquirectangularReflectionMapping;
       scene.environment = texture;
