@@ -19,7 +19,8 @@ const Scene = () => {
   const sceneRef = useRef(new THREE.Scene());
   const { setLoading } = useLoading();
 
-  const [character, setChar] = useState<THREE.Object3D | null>(null);
+  const [, setChar] = useState<THREE.Object3D | null>(null);
+
   useEffect(() => {
     if (canvasDiv.current) {
       let rect = canvasDiv.current.getBoundingClientRect();
@@ -30,9 +31,12 @@ const Scene = () => {
       const renderer = new THREE.WebGLRenderer({
         alpha: true,
         antialias: true,
+        powerPreference: "high-performance", // Mobile GPU acceleration trigger
       });
       renderer.setSize(container.width, container.height);
-      renderer.setPixelRatio(window.devicePixelRatio);
+      
+      // ⚡ LAG FIX: Restricted resolution multiplier up to 2 for butter-smooth mobile frame rate
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1;
       canvasDiv.current.appendChild(renderer.domElement);
@@ -48,7 +52,6 @@ const Scene = () => {
       let mixer: THREE.AnimationMixer;
 
       const clock = new THREE.Clock();
-
       const light = setLighting(scene);
       let progress = setProgress((value) => setLoading(value));
       const { loadCharacter } = setCharacter(renderer, scene, camera);
@@ -63,12 +66,14 @@ const Scene = () => {
           scene.add(character);
           headBone = character.getObjectByName("spine006") || null;
           screenLight = character.getObjectByName("screenlight") || null;
+          
           progress.loaded().then(() => {
             setTimeout(() => {
               light.turnOnLights();
               animations.startIntro();
             }, 2500);
           });
+          
           window.addEventListener("resize", () =>
             handleResize(renderer, camera, canvasDiv, character)
           );
@@ -81,6 +86,7 @@ const Scene = () => {
       const onMouseMove = (event: MouseEvent) => {
         handleMouseMove(event, (x, y) => (mouse = { x, y }));
       };
+      
       let debounce: number | undefined;
       const onTouchStart = (event: TouchEvent) => {
         const element = event.target as HTMLElement;
@@ -98,14 +104,13 @@ const Scene = () => {
         });
       };
 
-      document.addEventListener("mousemove", (event) => {
-        onMouseMove(event);
-      });
+      document.addEventListener("mousemove", onMouseMove);
       const landingDiv = document.getElementById("landingDiv");
       if (landingDiv) {
         landingDiv.addEventListener("touchstart", onTouchStart);
         landingDiv.addEventListener("touchend", onTouchEnd);
       }
+      
       const animate = () => {
         requestAnimationFrame(animate);
         if (headBone) {
@@ -126,24 +131,19 @@ const Scene = () => {
         renderer.render(scene, camera);
       };
       animate();
+      
       return () => {
         clearTimeout(debounce);
         scene.clear();
         renderer.dispose();
-        window.removeEventListener("resize", () =>
-          handleResize(renderer, camera, canvasDiv, character!)
-        );
-        if (canvasDiv.current) {
-          canvasDiv.current.removeChild(renderer.domElement);
-        }
+        document.removeEventListener("mousemove", onMouseMove);
         if (landingDiv) {
-          document.removeEventListener("mousemove", onMouseMove);
           landingDiv.removeEventListener("touchstart", onTouchStart);
           landingDiv.removeEventListener("touchend", onTouchEnd);
         }
       };
     }
-  }, []);
+  }, [setLoading]);
 
   return (
     <>
