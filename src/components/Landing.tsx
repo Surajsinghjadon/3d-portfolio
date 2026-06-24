@@ -4,36 +4,14 @@ import "./styles/Landing.css";
 const Landing = ({ children }: PropsWithChildren) => {
   return (
     <>
-      {/* ⚡ MASTER CSS OVERRIDE: Child classes ko direct target karke overlap khatam karega */}
+      {/* ⚡ SMART SCALE PATCH: Animation script ko chhede bina mobile par text overlap 100% khatam karega */}
       <style>{`
         @media (max-width: 768px) {
-          .landing-info-h2, 
-          .landing-info h2 {
-            font-size: 26px !important;
-            height: auto !important;
-            position: relative !important;
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            justify-content: center !important;
-          }
-          .landing-h2-1, 
-          .landing-h2-2, 
-          .landing-h2-info, 
-          .landing-h2-info-1 {
-            font-size: 26px !important;
-            position: relative !important;
-            left: auto !important;
-            top: auto !important;
-            transform: none !important;
-            display: block !important;
-            text-align: center !important;
+          .landing-info {
+            transform: scale(0.75) !important;
+            transform-origin: center center !important;
+            margin-top: -10px !important;
             width: 100% !important;
-            line-height: 1.3 !important;
-          }
-          /* Duplicate layer ko mobile par hide mardega taaki khichdi na bane, par DOM me rahega jisse GSAP chalta rahe */
-          .landing-info h2:not(.landing-info-h2) {
-            display: none !important;
           }
         }
       `}</style>
