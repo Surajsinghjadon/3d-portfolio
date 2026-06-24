@@ -1,76 +1,65 @@
-import "./styles/Career.css";
+import React from "react";
 
 const Career = () => {
+  // 🎯 HTML FILE SE LIYA GAYA AAPKA ASLI EXPERIENCE DATA
+  const experiences = [
+    {
+      role: "Invoice SAP Executive",
+      company: "Polyhose India Private Limited",
+      year: "2025–26",
+      desc: "Overseeing high-volume invoice processing inside corporate SAP environment log structures and reconciling corporate transactions and ledger accuracy validations."
+    },
+    {
+      role: "Store Data Analysis Operations",
+      company: "Hettich",
+      year: "2024–25",
+      desc: "Managed analytical validation, stock parsing, and inventory logs in database catalogs."
+    },
+    {
+      role: "Machine Operator",
+      company: "Rahul Precision Work Pvt Ltd",
+      year: "2022–24",
+      desc: "Managed industrial machine system calibrations and automated equipment logs."
+    }
+  ];
+
   return (
-    <div className="career-section section-container">
-      <div className="career-container">
-        <h2>
-          My career <span>&</span>
-          <br /> experience
+    <div className="career-section section-container" id="experience">
+      <div className="career-header" style={{ marginBottom: "50px" }}>
+        <h2 style={{ fontSize: "32px", fontWeight: 800, color: "#fff" }}>
+          My career & <br />
+          <span style={{ color: "#38bdf8" }}>experience</span>
         </h2>
-        <div className="career-info">
-          <div className="career-timeline">
-            <div className="career-dot"></div>
-          </div>
+      </div>
 
-          <div className="career-info-box">
-            <div className="career-info-in">
-              <div className="career-role">
-                <h4>Technical Trainee</h4>
-                <h5>IIRS ISRO (Online Programme)</h5>
-              </div>
-              <h3>2026</h3>
-            </div>
-            <p>
-              Enrolled in specialized training with the Indian Institute of Remote Sensing, 
-              managing advanced analytical portal workflows and geospatial information guidelines.
-            </p>
-          </div>
-
-          <div className="career-info-box">
-            <div className="career-info-in">
-              <div className="career-role">
-                <h4>Job Assistance Executive</h4>
-                <h5>Polyhose India Private Limited</h5>
-              </div>
-              <h3>2026</h3>
-            </div>
-            <p>
-              Managed coordinator structures, administrative documentation, and executed specific job 
-              application forms and resource allocation tracking within industrial corporate frameworks.
-            </p>
-          </div>
-
-          <div className="career-info-box">
-            <div className="career-info-in">
-              <div className="career-role">
-                <h4>Micro-Enterprise Proprietor</h4>
-                <h5>Ministry of MSME</h5>
-              </div>
-              <h3>2025–26</h3>
-            </div>
-            <p>
-              Executed regulatory setup operations and structural optimization to secure an official 
-              Udyam Registration identification number under the government micro-enterprise registry.
-            </p>
-          </div>
-
-          <div className="career-info-box">
-            <div className="career-info-in">
-              <div className="career-role">
-                <h4>Wholesale Supply & Trading Operator</h4>
-                <h5>Meesho & Alibaba Commercial Networks</h5>
-              </div>
-              <h3>2024–25</h3>
-            </div>
-            <p>
-              Coordinated cross-platform commercial pipelines by establishing a live supplier network 
-              on Meesho, managing verified corporate business credentials on Cashify Super Sales, 
-              and optimizing standard wholesale procurement channels on Alibaba.
-            </p>
-          </div>
-
+      <div className="timeline-matrix" style={{ position: "relative", maxWidth: "1000px", margin: "0 auto" }}>
+        {/* TIMELINE VERTICAL LINE */}
+        <div className="timeline-bar" style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: "2px", background: "rgba(56, 189, 248, 0.2)" }}>
+          <div className="timeline-glowing-dot" style={{ position: "absolute", bottom: 0, left: "-4px", width: "10px", height: "10px", background: "#38bdf8", borderRadius: "50%", boxShadow: "0 0 10px #38bdf8" }}></div>
         </div>
+
+        {/* MAPPING THE CORRECT EXPERIENCES */}
+        {experiences.map((exp, index) => (
+          <div className="timeline-row" key={index} style={{ display: "flex", marginBottom: "40px", alignItems: "center", justifyContent: "space-between" }}>
+            
+            {/* LEFT BLOCK: ROLE & COMPANY */}
+            <div className="timeline-left-block" style={{ width: "40%", textAlign: "right", paddingRight: "30px" }}>
+              <h3 style={{ fontSize: "18px", fontWeight: 700, color: "#fff", margin: "0 0 5px 0" }}>{exp.role}</h3>
+              <p style={{ fontSize: "14px", color: "#38bdf8", margin: 0 }}>{exp.company}</p>
+            </div>
+
+            {/* CENTER BLOCK: YEAR */}
+            <div className="timeline-center-block" style={{ width: "10%", textStyle: "center", zIndex: 2 }}>
+              <span style={{ display: "block", textAlign: "center", fontSize: "20px", fontWeight: 800, color: "#fff" }}>{exp.year}</span>
+            </div>
+
+            {/* RIGHT BLOCK: DESCRIPTION */}
+            <div className="timeline-right-block" style={{ width: "40%", paddingLeft: "30px", textAlign: "left" }}>
+              <p style={{ fontSize: "13px", color: "#94a3b8", lineHeight: "1.6", margin: 0 }}>{exp.desc}</p>
+            </div>
+
+          </div>
+        ))}
       </div>
     </div>
   );
