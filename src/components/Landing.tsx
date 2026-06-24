@@ -14,15 +14,14 @@ const Landing = ({ children }: PropsWithChildren) => {
               <span>JADON</span>
             </h1>
           </div>
+          
           <div className="landing-info">
             <h3>Data Analyst &</h3>
+            
+            {/* ⚡ FIXED: Removed the messy duplicate overlapping <h2> block that was breaking the layout */}
             <h2 className="landing-info-h2">
               <div className="landing-h2-1">Computer</div>
               <div className="landing-h2-2">Professional</div>
-            </h2>
-            <h2>
-              <div className="landing-h2-info">Professional</div>
-              <div className="landing-h2-info-1">Computer</div>
             </h2>
           </div>
         </div>
