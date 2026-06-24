@@ -6,11 +6,14 @@ const About = () => {
       <div className="about-me">
         <h3 className="title">About Me</h3>
         <p className="para">
-          I am currently co-founder of CallHQ.ai, building real-time voice AI for
-          businesses. I am a technologist at heart with strong business judgment—
-          I enjoy going from product strategy to hands-on engineering. My background
-          spans leadership at Adobe, founding Broki and CallHQ, and shipping
-          full-stack products end to end.
+          I am a dedicated Data Analyst and Computer Professional focused on optimizing 
+          high-speed information infrastructure, SAP transaction validation, and enterprise 
+          log management. With a strong technical foundation built on a one-year Diploma 
+          in Computer Applications (DCA), my professional background spans managing critical data 
+          integrity loops—from auditing high-volume transactional invoices inside corporate 
+          SAP environments at Polyhose India Private Limited to analyzing database stock catalogs 
+          at Hettich. I excel at bringing analytical precision and structural efficiency to 
+          complex database operations.
         </p>
       </div>
     </div>
