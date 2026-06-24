@@ -15,16 +15,20 @@ const Landing = ({ children }: PropsWithChildren) => {
             </h1>
           </div>
           
-          {/* 🎯 AVATAR ANIMATION RESTORED: Saare original classes wapas de diye hain taaki ScrollTrigger kaam karne lage */}
-          <div className="landing-info">
-            <h3>Data Analyst &</h3>
+          {/* 🎯 GSAP ANIMATION & MOBILE LAYOUT FIXED */}
+          {/* Sahi layout aur fixed constraints taaki GSAP scroll triggers perfectly calculate ho sakein */}
+          <div className="landing-info" style={{ width: "100%", maxWidth: "360px", margin: "0 auto", textAlign: "center" }}>
+            <h3 style={{ fontSize: "14px", color: "#94a3b8", margin: "0 0 8px 0", letterSpacing: "1px" }}>
+              Data Analyst &
+            </h3>
             
-            <h2 className="landing-info-h2">
+            {/* Clamp lagane se text mobile par automatically chota ho jayega aur overlap nahi hoga */}
+            <h2 className="landing-info-h2" style={{ fontSize: "clamp(24px, 6vw, 38px)", lineHeight: "1.2", fontWeight: 800 }}>
               <div className="landing-h2-1">Computer</div>
               <div className="landing-h2-2">Professional</div>
             </h2>
             
-            <h2>
+            <h2 style={{ fontSize: "clamp(24px, 6vw, 38px)", lineHeight: "1.2", fontWeight: 800 }}>
               <div className="landing-h2-info">Professional</div>
               <div className="landing-h2-info-1">Computer</div>
             </h2>
