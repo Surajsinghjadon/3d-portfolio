@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MdArrowOutward, MdCopyright, MdLock, MdCheckCircle, MdHourglassTop, MdCancel, MdLogin, MdLogout, MdAdminPanelSettings, MdPerson, MdEmail } from "react-icons/md";
+import { MdArrowOutward, MdCopyright } from "react-icons/md";
 import "./styles/Contact.css";
 
 type RequestItem = {
@@ -18,7 +18,6 @@ const Contact = () => {
   const [otpInput, setOtpInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
   const [strength, setStrength] = useState<"Weak" | "Medium" | "Strong" | "">("");
   const [strengthColor, setStrengthColor] = useState("#ef4444");
@@ -45,11 +44,6 @@ const Contact = () => {
       localStorage.setItem("suraj_portfolio_db", JSON.stringify(dummyData));
     }
   }, []);
-
-  const saveToDB = (updatedList: RequestItem[]) => {
-    setAllRequests(updatedList);
-    localStorage.setItem("suraj_portfolio_db", JSON.stringify(updatedList));
-  };
 
   const checkPasswordStrength = (pass: string) => {
     setPasswordInput(pass);
@@ -88,7 +82,6 @@ const Contact = () => {
     setOtpLoading(true);
     setTimeout(() => {
       setOtpLoading(false);
-      setOtpSent(true);
       alert(`📨 OTP sent to: ${emailInput}`);
     }, 1200);
   };
