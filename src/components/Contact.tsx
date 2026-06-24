@@ -11,27 +11,39 @@ const Contact = () => {
             <h4>Connect</h4>
             <p>
               <a
-                href="https://www.linkedin.com/in/akashrmalhotra/"
+                href="https://www.linkedin.com/in/suraj-singh-jadon-bb320a274"
                 target="_blank"
                 rel="noreferrer"
                 data-cursor="disable"
               >
-                LinkedIn — akashrmalhotra
+                LinkedIn — Suraj Singh Jadon
               </a>
             </p>
-            <h4>Education</h4>
+            <p style={{ marginTop: "8px", fontSize: "14px", color: "#94a3b8" }}>
+              Email: surajsinghrajput5040@gmail.com
+            </p>
+            <p style={{ marginTop: "4px", fontSize: "14px", color: "#94a3b8" }}>
+              Phone: +91 78795 95821
+            </p>
+            <p style={{ marginTop: "4px", fontSize: "14px", color: "#94a3b8" }}>
+              Location: Pithampur, Madhya Pradesh
+            </p>
+
+            <h4 style={{ marginTop: "24px" }}>Education</h4>
             <p>
-              PGPWE (MBA), Indian Institute of Management, Lucknow — 2021–2023
+              Diploma in Computer Applications (DCA), Makhanlal Chaturvedi University — 2023
             </p>
             <p>
-              B.Tech Computer Science, Manav Rachna Educational Institutions —
-              2009–2013
+              12th Grade, Madhya Pradesh State Open Board — 2022
+            </p>
+            <p>
+              10th Grade, Madhya Pradesh Board — 2020
             </p>
           </div>
           <div className="contact-box">
             <h4>Social</h4>
             <a
-              href="https://github.com/akashrmalhotra"
+              href="https://github.com/surajsinghjadon"
               target="_blank"
               rel="noreferrer"
               data-cursor="disable"
@@ -40,7 +52,7 @@ const Contact = () => {
               GitHub <MdArrowOutward />
             </a>
             <a
-              href="https://www.linkedin.com/in/akashrmalhotra/"
+              href="https://www.linkedin.com/in/suraj-singh-jadon-bb320a274"
               target="_blank"
               rel="noreferrer"
               data-cursor="disable"
@@ -48,28 +60,10 @@ const Contact = () => {
             >
               LinkedIn <MdArrowOutward />
             </a>
-            <a
-              href="https://www.youtube.com/@Leftbraincoder"
-              target="_blank"
-              rel="noreferrer"
-              data-cursor="disable"
-              className="contact-social"
-            >
-              YouTube <MdArrowOutward />
-            </a>
-            <a
-              href="https://www.instagram.com/leftbraincoder/"
-              target="_blank"
-              rel="noreferrer"
-              data-cursor="disable"
-              className="contact-social"
-            >
-              Instagram <MdArrowOutward />
-            </a>
           </div>
           <div className="contact-box">
             <h2>
-              Designed and Developed <br /> by <span>Akash Malhotra</span>
+              Designed and Developed <br /> by <span>Suraj Singh Jadon</span>
             </h2>
             <h5>
               <MdCopyright /> 2026
