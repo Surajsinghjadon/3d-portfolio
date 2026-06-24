@@ -1,7 +1,5 @@
-import React from "react";
-
 const Career = () => {
-  // 🎯 HTML FILE SE LIYA GAYA AAPKA ASLI EXPERIENCE DATA
+  // 🎯 HTML File se verified aapka ekdum sahi experience data
   const experiences = [
     {
       role: "Invoice SAP Executive",
@@ -49,7 +47,7 @@ const Career = () => {
             </div>
 
             {/* CENTER BLOCK: YEAR */}
-            <div className="timeline-center-block" style={{ width: "10%", textStyle: "center", zIndex: 2 }}>
+            <div className="timeline-center-block" style={{ width: "10%", textAlign: "center", zIndex: 2 }}>
               <span style={{ display: "block", textAlign: "center", fontSize: "20px", fontWeight: 800, color: "#fff" }}>{exp.year}</span>
             </div>
 
