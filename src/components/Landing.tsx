@@ -4,32 +4,58 @@ import "./styles/Landing.css";
 const Landing = ({ children }: PropsWithChildren) => {
   return (
     <>
-      {/* ⚡ BULLETPROOF CSS OVERRIDE: Yeh selectors GSAP ke inline styles ko override karke text ko mobile par chota rakhenge */}
+      {/* ⚡ NUCLEAR CSS OVERRIDE: Yeh mobile par saari khichdi ko khtam karke text ko ek line me laayega */}
       <style>{`
         @media (max-width: 768px) {
-          div.landing-section div.landing-container div.landing-info h3 {
-            font-size: 14px !important;
-            margin-bottom: 5px !important;
-          }
-          div.landing-section div.landing-container div.landing-info h2,
-          div.landing-section div.landing-container div.landing-info .landing-info-h2 {
-            font-size: 24px !important;
-            line-height: 1.3 !important;
-            height: auto !important;
-          }
-          div.landing-section div.landing-container div.landing-info div.landing-h2-1,
-          div.landing-section div.landing-container div.landing-info div.landing-h2-2,
-          div.landing-section div.landing-container div.landing-info div.landing-h2-info,
-          div.landing-section div.landing-container div.landing-info div.landing-h2-info-1 {
-            font-size: 24px !important;
+          /* 1. Pure text container ki absolute layout ko khatam karo */
+          .landing-info,
+          .landing-info h2,
+          .landing-info-h2,
+          .landing-info div,
+          .landing-info span {
             position: relative !important;
-            left: auto !important;
             top: auto !important;
+            left: auto !important;
+            bottom: auto !important;
+            right: auto !important;
             transform: none !important;
-            display: inline-block !important;
-            width: auto !important;
-            margin: 0 4px !important;
+            display: block !important;
+            text-align: center !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+            height: auto !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+          }
+
+          /* 2. Sub-heading text size set karo */
+          .landing-info h3 {
+            font-size: 14px !important;
+            color: #94a3b8 !important;
+            margin-bottom: 8px !important;
+            position: relative !important;
+          }
+
+          /* 3. Computer Professional wale lafzon ka size force karo taaki wo phate nahi */
+          .landing-h2-1, 
+          .landing-h2-2, 
+          .landing-h2-info, 
+          .landing-h2-info-1 {
+            font-size: 26px !important;
+            font-weight: 800 !important;
+            color: #5eead4 !important;
             line-height: 1.3 !important;
+            letter-spacing: 0.5px !important;
+          }
+
+          /* White text color assign karo 'Professional' word ke liye agar design me thaa */
+          .landing-h2-2, .landing-h2-info {
+            color: #ffffff !important;
+          }
+
+          /* 4. Dusri duplicate layer ko mobile par bilkul chupa do taaki double text na dikhe */
+          .landing-info h2:not(.landing-info-h2) {
+            display: none !important;
           }
         }
       `}</style>
