@@ -28,7 +28,7 @@ const Contact = () => {
   const [allRequests, setAllRequests] = useState<RequestItem[]>([]);
 
   const availableDocs = [
-    { id: "dca", label: "Diploma in Computer Applications (DCA)", fileName: "dca_diploma.pdf" },
+    { id: "dca", label: "Diploma in Computer Applications (DCA)", fileName: "dca_1Sam.pdf" },
     { id: "m12", label: "12th Grade Marksheet", fileName: "12th_marksheet.pdf" },
     { id: "m10", label: "10th Grade Marksheet", fileName: "10th_marksheet.pdf" },
   ];
@@ -39,7 +39,7 @@ const Contact = () => {
       setAllRequests(JSON.parse(savedRequests));
     } else {
       const dummyData: RequestItem[] = [
-        { id: "req_1", userEmail: "recruiter_node@tata.com", docLabel: "Diploma in Computer Applications (DCA)", fileName: "dca_diploma.pdf", status: "pending", timestamp: "24/06/2026" }
+        { id: "req_1", userEmail: "recruiter_node@tata.com", docLabel: "Diploma in Computer Applications (DCA)", fileName: "dca_1Sam.pdf", status: "pending", timestamp: "24/06/2026" }
       ];
       setAllRequests(dummyData);
       localStorage.setItem("suraj_portfolio_db", JSON.stringify(dummyData));
@@ -89,7 +89,7 @@ const Contact = () => {
     setTimeout(() => {
       setOtpLoading(false);
       setOtpSent(true);
-      alert(`📨 OTP code simulated and sent to: ${emailInput}`);
+      alert(`📨 OTP sent to: ${emailInput}`);
     }, 1200);
   };
 
@@ -112,7 +112,7 @@ const Contact = () => {
   };
 
   const handleSocialLogin = (platform: string) => {
-    alert(`🌐 Connecting to ${platform} secure login gateway...`);
+    alert(`🌐 Connecting to ${platform}...`);
     setCurrentUserEmail(`partner@${platform.toLowerCase()}.com`);
     setIsAdmin(false);
     setAuthScreen("authenticated");
@@ -124,7 +124,7 @@ const Contact = () => {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #1e293b", paddingBottom: "15px", marginBottom: "25px" }}>
           <h3 style={{ margin: 0, color: "#fff" }}>🔒 Secure Documents Interface</h3>
           {authScreen === "authenticated" && (
-            <button onClick={() => { setAuthScreen("signin"); setPasswordInput(""); setConfirmPassword(""); }} style={{ background: "#ef4444", color: "#fff", border: "none", padding: "6px 12px", borderRadius: "6px", cursor: "pointer" }}>Logout</button>
+            <button onClick={() => setAuthScreen("signin")} style={{ background: "#ef4444", color: "#fff", border: "none", padding: "6px 12px", borderRadius: "6px", cursor: "pointer" }}>Logout</button>
           )}
         </div>
 
@@ -215,7 +215,7 @@ const Contact = () => {
                       ) : (
                         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                           {userReq.status === "approved" ? (
-                            <button onClick={() => window.open(`/${doc.fileName}`, "_blank")} style={{ background: "#22c55e", color: "#fff", border: "none", borderRadius: "4px", padding: "4px 10px", fontSize: "12px", cursor: "pointer" }}>View Document</button>
+                            <button onClick={() => window.open(`/Portfolio/${doc.fileName}`, "_blank")} style={{ background: "#22c55e", color: "#fff", border: "none", borderRadius: "4px", padding: "4px 10px", fontSize: "12px", cursor: "pointer" }}>View Document</button>
                           ) : (
                             <span style={{ color: userReq.status === "pending" ? "#eab308" : "#ef4444", fontSize: "12px" }}>
                               {userReq.status === "pending" ? "⏳ Pending Approval" : "❌ Access Deleted"}
@@ -234,8 +234,8 @@ const Contact = () => {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px", marginTop: "30px" }}>
           <div style={{ background: "#111827", padding: "15px", borderRadius: "8px" }}>
             <h5 style={{ margin: "0 0 10px 0", color: "#94a3b8" }}>Public Data Modules</h5>
-            <a href="/Introduction to SQL_certificate.pdf" target="_blank" rel="noreferrer" style={{ display: "block", marginBottom: "8px", color: "#38bdf8", textDecoration: "none" }}>SQL Structural Data <MdArrowOutward /></a>
-            <a href="/Data Analytics with AI_certificate.pdf" target="_blank" rel="noreferrer" style={{ display: "block", color: "#38bdf8", textDecoration: "none" }}>Analytics Infrastructure <MdArrowOutward /></a>
+            <a href="/Portfolio/Introduction to SQL_certificate.pdf" target="_blank" rel="noreferrer" style={{ display: "block", marginBottom: "8px", color: "#38bdf8", textDecoration: "none" }}>SQL Structural Data <MdArrowOutward /></a>
+            <a href="/Portfolio/Data Analytics with AI_certificate.pdf" target="_blank" rel="noreferrer" style={{ display: "block", color: "#38bdf8", textDecoration: "none" }}>Analytics Infrastructure <MdArrowOutward /></a>
           </div>
           <div style={{ background: "#111827", padding: "15px", borderRadius: "8px" }}>
             <h5 style={{ margin: "0 0 10px 0", color: "#94a3b8" }}>Pithampur Center Matrix</h5>
