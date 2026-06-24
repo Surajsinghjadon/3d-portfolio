@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # change to master if your default branch is named master
+      - main
 
 permissions:
   contents: read
