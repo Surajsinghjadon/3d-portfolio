@@ -12,63 +12,64 @@ const Career = () => {
           <div className="career-timeline">
             <div className="career-dot"></div>
           </div>
+
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Co-Founder</h4>
-                <h5>CallHQ.ai</h5>
+                <h4>Technical Trainee</h4>
+                <h5>IIRS ISRO (Online Programme)</h5>
               </div>
-              <h3>NOW</h3>
+              <h3>2026</h3>
             </div>
             <p>
-              Building CallHQ.ai, a voice AI platform for
-              automating customer calls, support, and conversions.
+              Enrolled in specialized training with the Indian Institute of Remote Sensing, 
+              managing advanced analytical portal workflows and geospatial information guidelines.
             </p>
           </div>
+
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Adobe</h4>
-                <h5>6+ years · Noida</h5>
+                <h4>Job Assistance Executive</h4>
+                <h5>Polyhose India Private Limited</h5>
               </div>
-              <h3>2017–24</h3>
+              <h3>2026</h3>
             </div>
             <p>
-              Senior Lead Software Engineer (Feb 2024 – May 2024). Lead Software
-              Engineer (Feb 2021 – Feb 2024). Software Engineer II (Dec 2017 –
-              Feb 2021): internationalization, globalization, and localization for
-              Adobe Technical Communication Suite; functional and linguistic testing
-              strategy; in-house tooling; collaboration with product and engineering
-              for high-quality localized releases.
+              Managed coordinator structures, administrative documentation, and executed specific job 
+              application forms and resource allocation tracking within industrial corporate frameworks.
             </p>
           </div>
+
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Consultant</h4>
-                <h5>Genpact Headstrong </h5>
+                <h4>Micro-Enterprise Proprietor</h4>
+                <h5>Ministry of MSME</h5>
               </div>
-              <h3>2016–17</h3>
+              <h3>2025–26</h3>
             </div>
             <p>
-              Sep 2016 – Nov 2017. Developed and maintained WCF services consumed
-              by the UI; deployment support across environments; NUnit tests and
-              coverage; bug fixes from QA and users; database work.
+              Executed regulatory setup operations and structural optimization to secure an official 
+              Udyam Registration identification number under the government micro-enterprise registry.
             </p>
           </div>
+
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Sf Engineer</h4>
-                <h5>Infogain</h5>
+                <h4>Wholesale Supply & Trading Operator</h4>
+                <h5>Meesho & Alibaba Commercial Networks</h5>
               </div>
-              <h3>2013-16</h3>
+              <h3>2024–25</h3>
             </div>
             <p>
-              Software engineering across enterprise projects, contributing to
-              design, development, and delivery of business applications.
+              Coordinated cross-platform commercial pipelines by establishing a live supplier network 
+              on Meesho, managing verified corporate business credentials on Cashify Super Sales, 
+              and optimizing standard wholesale procurement channels on Alibaba.
             </p>
           </div>
+
         </div>
       </div>
     </div>
