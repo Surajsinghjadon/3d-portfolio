@@ -39,12 +39,15 @@ const Navbar = () => {
       ScrollSmoother.refresh(true);
     });
   }, []);
+
   return (
     <>
       <div className="header">
         <a href="/#" className="navbar-title" data-cursor="disable">
           SSJ
         </a>
+        
+        {/* ⚡ FIXED: Removed the raw ugly text URL and replaced with clean "LINKEDIN" text */}
         <a
           href="https://www.linkedin.com/in/suraj-singh-jadon-bb320a274"
           className="navbar-connect"
@@ -52,8 +55,9 @@ const Navbar = () => {
           target="_blank"
           rel="noreferrer"
         >
-          https://www.linkedin.com/in/suraj-singh-jadon-bb320a274
+          LINKEDIN
         </a>
+        
         <ul>
           <li>
             <a data-href="#about" href="#about">
