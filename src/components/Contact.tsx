@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { MdArrowOutward, MdCopyright } from "react-icons/md";
 import "./styles/Contact.css";
 
 type RequestItem = {
@@ -12,24 +11,30 @@ type RequestItem = {
 };
 
 const Contact = () => {
-  const [authScreen, setAuthScreen] = useState<"signin" | "signup" | "forgot" | "authenticated">("signin");
-  const [nameInput, setNameInput] = useState("");
+  const [authScreen, setAuthScreen] = useState<"signin" | "signup" | "authenticated">("signin");
   const [emailInput, setEmailInput] = useState("");
-  const [otpInput, setOtpInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [otpLoading, setOtpLoading] = useState(false);
-  const [strength, setStrength] = useState<"Weak" | "Medium" | "Strong" | "">("");
-  const [strengthColor, setStrengthColor] = useState("#ef4444");
-  const [strengthWidth, setStrengthWidth] = useState("0%");
   const [currentUserEmail, setCurrentUserEmail] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [allRequests, setAllRequests] = useState<RequestItem[]>([]);
 
+  // Asli Certificates aur Marksheets aapki HTML file ke mutabik
   const availableDocs = [
-    { id: "dca", label: "Diploma in Computer Applications (DCA)", fileName: "dca_1Sam.pdf" },
-    { id: "m12", label: "12th Grade Marksheet", fileName: "12th_marksheet.pdf" },
-    { id: "m10", label: "10th Grade Marksheet", fileName: "10th_marksheet.pdf" },
+    { id: "dca_dip", label: "DCA Main Diploma", fileName: "dca_diploma.pdf" },
+    { id: "dca_s1", label: "DCA 1st Semester Marksheet", fileName: "dca_1Sam.pdf" },
+    { id: "dca_s2", label: "DCA 2nd Semester Marksheet", fileName: "dca_2Sam.pdf" },
+    { id: "m12", label: "12th Class Marksheet", fileName: "12th_marksheet.pdf" },
+    { id: "m10", label: "10th Class Marksheet", fileName: "10th_marksheet.pdf" },
+    { id: "res", label: "Professional Resume", fileName: "resume.pdf" }
+  ];
+
+  const publicCertificates = [
+    { label: "Data Analytics with AI", file: "Data Analytics with AI_certificate.pdf" },
+    { label: "Introduction to SQL", file: "Introduction to SQL_certificate.pdf" },
+    { label: "ChatGPT for Everyone", file: "ChatGPT for Everyone_certificate.pdf" },
+    { label: "Generative AI for Beginners", file: "Generative_AI_for_Beginners.pdf" },
+    { label: "Intro to Generative AI", file: "Introduction_to_Generative_AI_Studio.pdf" },
+    { label: "Intro to Prompt Engineering", file: "Introduction_to_Prompt_Engineering.pdf" }
   ];
 
   useEffect(() => {
@@ -38,207 +43,160 @@ const Contact = () => {
       setAllRequests(JSON.parse(savedRequests));
     } else {
       const dummyData: RequestItem[] = [
-        { id: "req_1", userEmail: "recruiter_node@tata.com", docLabel: "Diploma in Computer Applications (DCA)", fileName: "dca_1Sam.pdf", status: "pending", timestamp: "24/06/2026" }
+        { id: "req_1", userEmail: "hr_verification@polyhose.com", docLabel: "Professional Resume", fileName: "resume.pdf", status: "pending", timestamp: "2026" }
       ];
       setAllRequests(dummyData);
       localStorage.setItem("suraj_portfolio_db", JSON.stringify(dummyData));
     }
   }, []);
 
-  const checkPasswordStrength = (pass: string) => {
-    setPasswordInput(pass);
-    if (!pass) {
-      setStrength("");
-      setStrengthWidth("0%");
-      return;
-    }
-    let score = 0;
-    if (pass.length >= 6) score++;
-    if (pass.length >= 8) score++;
-    if (/[A-Z]/.test(pass)) score++;
-    if (/[0-9]/.test(pass)) score++;
-    if (/[@$!%*#?&]/.test(pass)) score++;
-
-    if (score <= 2) {
-      setStrength("Weak");
-      setStrengthColor("#ef4444"); 
-      setStrengthWidth("33%");
-    } else if (score === 3 || score === 4) {
-      setStrength("Medium");
-      setStrengthColor("#eab308"); 
-      setStrengthWidth("66%");
-    } else {
-      setStrength("Strong");
-      setStrengthColor("#22c55e"); 
-      setStrengthWidth("100%");
-    }
-  };
-
-  const handleSendOtp = () => {
-    if (!emailInput.trim()) {
-      alert("Please enter your email address first!");
-      return;
-    }
-    setOtpLoading(true);
-    setTimeout(() => {
-      setOtpLoading(false);
-      alert(`📨 OTP sent to: ${emailInput}`);
-    }, 1200);
-  };
-
   const handleAuthSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const cleanEmail = emailInput.trim().toLowerCase();
-    if (authScreen === "signup") {
-      if (!otpInput) {
-        alert("Please enter OTP.");
-        return;
-      }
-      if (passwordInput !== confirmPassword) {
-        alert("Passwords do not match.");
-        return;
-      }
-    }
     setCurrentUserEmail(cleanEmail);
     setAuthScreen("authenticated");
     setIsAdmin(cleanEmail === "surajsinghrajput5040@gmail.com");
   };
 
   const handleSocialLogin = (platform: string) => {
-    alert(`🌐 Connecting to ${platform}...`);
-    setCurrentUserEmail(`partner@${platform.toLowerCase()}.com`);
+    setCurrentUserEmail(`authorized_${platform.toLowerCase()}@node.com`);
     setIsAdmin(false);
     setAuthScreen("authenticated");
   };
 
   return (
-    <div className="contact-section section-container" id="contact">
-      <div className="contact-container" style={{ background: "#090d16", borderRadius: "16px", padding: "30px", border: "1px solid #1e293b" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #1e293b", paddingBottom: "15px", marginBottom: "25px" }}>
-          <h3 style={{ margin: 0, color: "#fff" }}>🔒 Secure Documents Interface</h3>
-          {authScreen === "authenticated" && (
-            <button onClick={() => setAuthScreen("signin")} style={{ background: "#ef4444", color: "#fff", border: "none", padding: "6px 12px", borderRadius: "6px", cursor: "pointer" }}>Logout</button>
-          )}
+    <div className="contact-section section-container" id="contact" style={{ background: "#05070c", padding: "60px 20px" }}>
+      
+      {/* SECTION TITLE */}
+      <div style={{ textAlign: "center", marginBottom: "40px" }}>
+        <h2 style={{ fontSize: "28px", fontWeight: 800, color: "#fff", margin: "0 0 10px 0" }}>Get In Touch & Gateway Portal</h2>
+        <p style={{ color: "#94a3b8", fontSize: "14px", margin: 0 }}>Access enterprise cloud system log nodes and secure verification channels</p>
+      </div>
+
+      {/* TWO-COLUMN SIDE BY SIDE SPLIT MATRIX */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "30px", maxWidth: "1040px", margin: "0 auto" }}>
+        
+        {/* LEFT COLUMN: CONTACT DETAILS (HTML VERIFIED) */}
+        <div style={{ background: "linear-gradient(145deg, #0e1426 0%, #050811 100%)", padding: "35px", borderRadius: "24px", border: "1px solid rgba(56, 189, 248, 0.15)", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          <div>
+            <h3 style={{ margin: "0 0 25px 0", color: "#38bdf8", fontSize: "18px", textTransform: "uppercase", letterSpacing: "1px" }}>📡 Contact Node Infrastructure</h3>
+            
+            <div style={{ display: "flex", alignItems: "center", gap: "15px", marginBottom: "25px" }}>
+              <div style={{ background: "rgba(56, 189, 248, 0.06)", border: "1px solid rgba(56, 189, 248, 0.2)", width: "44px", height: "44px", borderRadius: "12px", display: "flex", alignItems: "center", justify-content: "center", color: "#38bdf8" }}>✉️</div>
+              <div>
+                <div style={{ fontSize: "11px", textTransform: "uppercase", color: "#94a3b8", fontWeight: 700 }}>Email Address</div>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff", marginTop: "2px" }}>surajsinghrajput5040@gmail.com</div>
+              </div>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: "15px", marginBottom: "25px" }}>
+              <div style={{ background: "rgba(56, 189, 248, 0.06)", border: "1px solid rgba(56, 189, 248, 0.2)", width: "44px", height: "44px", borderRadius: "12px", display: "flex", alignItems: "center", justify-content: "center", color: "#38bdf8" }}>📞</div>
+              <div>
+                <div style={{ fontSize: "11px", textTransform: "uppercase", color: "#94a3b8", fontWeight: 700 }}>Contact Number</div>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff", marginTop: "2px" }}>+91 78795 95821</div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ background: "#080a12", border: "1px solid rgba(255,255,255,0.04)", padding: "20px", borderRadius: "16px", textAlign: "center", marginTop: "20px" }}>
+            <div style={{ fontSize: "11px", textTransform: "uppercase", color: "#94a3b8", fontWeight: 700, marginBottom: "8px" }}>Operational Base Location</div>
+            <span style={{ display: "inline-block", background: "rgba(56, 189, 248, 0.08)", border: "1px solid rgba(56, 189, 248, 0.2)", padding: "8px 16px", borderRadius: "50px", fontSize: "11px", fontWeight: 800, color: "#38bdf8" }}>
+              📍 PITHAMPUR, MADHYA PRADESH
+            </span>
+          </div>
         </div>
 
-        {authScreen === "signin" && (
-          <div style={{ maxWidth: "420px", margin: "20px auto", background: "#0f172a", padding: "30px", borderRadius: "12px", border: "1px solid #334155" }}>
-            <form onSubmit={handleAuthSubmit} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-              <input type="email" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder="Email Address" required style={{ width: "100%", background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff" }} />
-              <input type="password" placeholder="Password" required style={{ width: "100%", background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff" }} />
-              <button type="submit" style={{ background: "#0284c7", color: "#fff", border: "none", padding: "10px", borderRadius: "6px", fontWeight: "600" }}>Sign In</button>
-            </form>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "15px" }}>
-              <button onClick={() => handleSocialLogin("Google")} style={{ background: "#fff", color: "#000", border: "none", padding: "8px", borderRadius: "6px", fontWeight: "600" }}>Google</button>
-              <button onClick={() => handleSocialLogin("LinkedIn")} style={{ background: "#0077b5", color: "#fff", border: "none", padding: "8px", borderRadius: "6px", fontWeight: "600" }}>LinkedIn</button>
-            </div>
-            <p style={{ textAlign: "center", fontSize: "13px", color: "#94a3b8", marginTop: "20px" }}>
-              Don't have an account? <span onClick={() => setAuthScreen("signup")} style={{ color: "#38bdf8", cursor: "pointer", textDecoration: "underline" }}>Sign Up</span>
-            </p>
-          </div>
-        )}
-
-        {authScreen === "signup" && (
-          <div style={{ maxWidth: "440px", margin: "20px auto", background: "#0f172a", padding: "30px", borderRadius: "12px", border: "1px solid #334155" }}>
-            <form onSubmit={handleAuthSubmit} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-              <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} placeholder="Full Name" required style={{ width: "100%", background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff" }} />
-              <input type="email" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder="Email Address" required style={{ width: "100%", background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff" }} />
-              <div style={{ display: "flex", gap: "8px" }}>
-                <input type="text" value={otpInput} onChange={(e) => setOtpInput(e.target.value)} placeholder="Enter OTP" required style={{ flex: 1, background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff" }} />
-                <button type="button" onClick={handleSendOtp} style={{ background: "#0284c7", color: "#fff", border: "none", padding: "0 14px", borderRadius: "6px", fontSize: "12px" }}>{otpLoading ? "Sending..." : "Send OTP"}</button>
-              </div>
-              <div>
-                <input type="password" value={passwordInput} onChange={(e) => checkPasswordStrength(e.target.value)} placeholder="Password" required style={{ width: "100%", background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff" }} />
-                {strength && (
-                  <div style={{ marginTop: "6px" }}>
-                    <div style={{ width: "100%", height: "4px", background: "#334155", borderRadius: "2px" }}>
-                      <div style={{ width: strengthWidth, height: "100%", background: strengthColor, transition: "width 0.4s ease" }}></div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password" required style={{ width: "100%", background: "#1e293b", border: "1px solid #334155", padding: "10px", borderRadius: "6px", color: "#fff" }} />
-              <button type="submit" style={{ background: "#22c55e", color: "#fff", border: "none", padding: "10px", borderRadius: "6px", fontWeight: "600" }}>Register Node</button>
-            </form>
-            <p style={{ textAlign: "center", fontSize: "13px", color: "#94a3b8", marginTop: "20px" }}>
-              Already registered? <span onClick={() => setAuthScreen("signin")} style={{ color: "#38bdf8", cursor: "pointer", textDecoration: "underline" }}>Sign In</span>
-            </p>
-          </div>
-        )}
-
-        {authScreen === "authenticated" && (
-          <div>
-            {isAdmin ? (
-              <div style={{ background: "#0f172a", border: "1px solid #eab308", padding: "20px", borderRadius: "12px" }}>
-                <h4 style={{ color: "#eab308", margin: "0 0 15px 0" }}>Master Admin Request Hub — {currentUserEmail}</h4>
-                <table style={{ width: "100%", fontSize: "13px", color: "#fff" }}>
-                  <thead>
-                    <tr style={{ color: "#94a3b8", textAlign: "left" }}>
-                      <th>User</th>
-                      <th>Document</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {allRequests.map((req) => (
-                      <tr key={req.id} style={{ borderBottom: "1px solid #1e293b" }}>
-                        <td style={{ padding: "8px 0" }}>{req.userEmail}</td>
-                        <td>{req.docLabel}</td>
-                        <td style={{ color: req.status === "approved" ? "#22c55e" : req.status === "pending" ? "#eab308" : "#ef4444" }}>{req.status}</td>
-                        <td>
-                          <button onClick={() => { const updated = allRequests.map(r => r.id === req.id ? { ...r, status: "approved" as const } : r); setAllRequests(updated); localStorage.setItem("suraj_portfolio_db", JSON.stringify(updated)); }} style={{ background: "#22c55e", border: "none", color: "#fff", marginRight: "5px", padding: "2px 6px", borderRadius: "4px", cursor: "pointer" }}>Approve</button>
-                          <button onClick={() => { const updated = allRequests.map(r => r.id === req.id ? { ...r, status: "deleted" as const } : r); setAllRequests(updated); localStorage.setItem("suraj_portfolio_db", JSON.stringify(updated)); }} style={{ background: "#ef4444", border: "none", color: "#fff", padding: "2px 6px", borderRadius: "4px", cursor: "pointer" }}>Delete</button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <div style={{ background: "#0f172a", border: "1px solid #38bdf8", padding: "20px", borderRadius: "12px" }}>
-                <h4 style={{ color: "#38bdf8", margin: "0 0 15px 0" }}>Client Active Session: {currentUserEmail}</h4>
-                {availableDocs.map((doc) => {
-                  const userReq = allRequests.find(r => r.userEmail === currentUserEmail && r.fileName === doc.fileName);
-                  return (
-                    <div key={doc.id} style={{ display: "flex", justifyContent: "space-between", margin: "12px 0", borderBottom: "1px solid #1e293b", paddingBottom: "8px" }}>
-                      <span style={{ color: "#fff" }}>{doc.label}</span>
-                      {!userReq ? (
-                        <button onClick={() => { const newReq: RequestItem = { id: "req_" + Date.now(), userEmail: currentUserEmail, docLabel: doc.label, fileName: doc.fileName, status: "pending", timestamp: "2026" }; const updated = [newReq, ...allRequests]; setAllRequests(updated); localStorage.setItem("suraj_portfolio_db", JSON.stringify(updated)); }} style={{ background: "#1e293b", color: "#38bdf8", border: "1px solid #38bdf8", borderRadius: "4px", padding: "4px 10px", fontSize: "12px", cursor: "pointer" }}>Request Access</button>
-                      ) : (
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          {userReq.status === "approved" ? (
-                            <button onClick={() => window.open(`/Portfolio/${doc.fileName}`, "_blank")} style={{ background: "#22c55e", color: "#fff", border: "none", borderRadius: "4px", padding: "4px 10px", fontSize: "12px", cursor: "pointer" }}>View Document</button>
-                          ) : (
-                            <span style={{ color: userReq.status === "pending" ? "#eab308" : "#ef4444", fontSize: "12px" }}>
-                              {userReq.status === "pending" ? "⏳ Pending Approval" : "❌ Access Deleted"}
-                            </span>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+        {/* RIGHT COLUMN: SECURE LOGIN PANEL RESTORED CORNER-BY-CONTACT */}
+        <div style={{ background: "linear-gradient(145deg, #0e1426 0%, #050811 100%)", padding: "35px", borderRadius: "24px", border: "1px solid rgba(56, 189, 248, 0.15)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.06)", paddingBottom: "15px", marginBottom: "20px" }}>
+            <h3 style={{ margin: 0, color: "#fff", fontSize: "18px" }}>🔒 Secure Documents Gate</h3>
+            {authScreen === "authenticated" && (
+              <button onClick={() => setAuthScreen("signin")} style={{ background: "#ef4444", color: "#fff", border: "none", padding: "5px 12px", borderRadius: "6px", fontSize: "12px", fontWeight: "bold", cursor: "pointer" }}>Logout</button>
             )}
           </div>
-        )}
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px", marginTop: "30px" }}>
-          <div style={{ background: "#111827", padding: "15px", borderRadius: "8px" }}>
-            <h5 style={{ margin: "0 0 10px 0", color: "#94a3b8" }}>Public Data Modules</h5>
-            <a href="/Portfolio/Introduction to SQL_certificate.pdf" target="_blank" rel="noreferrer" style={{ display: "block", marginBottom: "8px", color: "#38bdf8", textDecoration: "none" }}>SQL Structural Data <MdArrowOutward /></a>
-            <a href="/Portfolio/Data Analytics with AI_certificate.pdf" target="_blank" rel="noreferrer" style={{ display: "block", color: "#38bdf8", textDecoration: "none" }}>Analytics Infrastructure <MdArrowOutward /></a>
-          </div>
-          <div style={{ background: "#111827", padding: "15px", borderRadius: "8px" }}>
-            <h5 style={{ margin: "0 0 10px 0", color: "#94a3b8" }}>Pithampur Center Matrix</h5>
-            <p style={{ margin: 0, fontSize: "13px", color: "#64748b" }}>Corporate Base: Pithampur, Madhya Pradesh</p>
-          </div>
+          {authScreen === "signin" && (
+            <form onSubmit={handleAuthSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <input type="email" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder="Email Address" required style={{ width: "100%", background: "#0c101d", border: "1px solid rgba(255,255,255,0.08)", padding: "12px 16px", borderRadius: "10px", color: "#fff", fontSize: "14px", boxBoxing: "border-box" }} />
+              <input type="password" value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} placeholder="Account Password" required style={{ width: "100%", background: "#0c101d", border: "1px solid rgba(255,255,255,0.08)", padding: "12px 16px", borderRadius: "10px", color: "#fff", fontSize: "14px", boxBoxing: "border-box" }} />
+              <button type="submit" style={{ background: "#38bdf8", color: "#05070c", border: "none", padding: "12px", borderRadius: "10px", fontWeight: "800", textTransform: "uppercase", fontSize: "12px", cursor: "pointer", marginTop: "5px" }}>Sign In</button>
+              
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "5px" }}>
+                <button type="button" onClick={() => handleSocialLogin("Google")} style={{ background: "rgba(255,255,255,0.04)", color: "#fff", border: "1px solid rgba(255,255,255,0.1)", padding: "10px", borderRadius: "10px", fontSize: "12px", fontWeight: "600", cursor: "pointer" }}>Google</button>
+                <button type="button" onClick={() => handleSocialLogin("LinkedIn")} style={{ background: "rgba(255,255,255,0.04)", color: "#fff", border: "1px solid rgba(255,255,255,0.1)", padding: "10px", borderRadius: "10px", fontSize: "12px", fontWeight: "600", cursor: "pointer" }}>LinkedIn</button>
+              </div>
+              <p style={{ textAlign: "center", fontSize: "12px", color: "#94a3b8", margin: "10px 0 0 0" }}>
+                New clearance terminal node? <span onClick={() => setAuthScreen("signup")} style={{ color: "#38bdf8", cursor: "pointer", textDecoration: "underline" }}>Sign Up</span>
+              </p>
+            </form>
+          )}
+
+          {authScreen === "signup" && (
+            <form onSubmit={handleAuthSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <input type="text" placeholder="Full Name Identity" required style={{ width: "100%", background: "#0c101d", border: "1px solid rgba(255,255,255,0.08)", padding: "12px 16px", borderRadius: "10px", color: "#fff", fontSize: "14px" }} />
+              <input type="email" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder="Secure Email Address" required style={{ width: "100%", background: "#0c101d", border: "1px solid rgba(255,255,255,0.08)", padding: "12px 16px", borderRadius: "10px", color: "#fff", fontSize: "14px" }} />
+              <input type="password" placeholder="Create Access Password" required style={{ width: "100%", background: "#0c101d", border: "1px solid rgba(255,255,255,0.08)", padding: "12px 16px", borderRadius: "10px", color: "#fff", fontSize: "14px" }} />
+              <button type="submit" style={{ background: "#4ade80", color: "#05070c", border: "none", padding: "12px", borderRadius: "10px", fontWeight: "800", textTransform: "uppercase", fontSize: "12px", cursor: "pointer" }}>Create Account</button>
+              <p style={{ textAlign: "center", fontSize: "12px", color: "#94a3b8", margin: "5px 0 0 0" }}>
+                Already registered? <span onClick={() => setAuthScreen("signin")} style={{ color: "#38bdf8", cursor: "pointer", textDecoration: "underline" }}>Sign In</span>
+              </p>
+            </form>
+          )}
+
+          {/* SUCCESS AUTHENTICATED STATE PANEL */}
+          {authScreen === "authenticated" && (
+            <div>
+              {isAdmin ? (
+                <div style={{ background: "rgba(5,7,12,0.5)", border: "1px solid #fbbf24", padding: "15px", borderRadius: "12px" }}>
+                  <h4 style={{ color: "#fbbf24", margin: "0 0 10px 0", fontSize: "14px" }}>System Master Console — {currentUserEmail}</h4>
+                  {allRequests.map((req) => (
+                    <div key={req.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12px", borderBottom: "1px solid rgba(255,255,255,0.05)", padding: "8px 0" }}>
+                      <span style={{ color: "#fff" }}>{req.userEmail} ({req.docLabel})</span>
+                      <div style={{ display: "flex", gap: "5px" }}>
+                        <button onClick={() => { const updated = allRequests.map(r => r.id === req.id ? { ...r, status: "approved" as const } : r); setAllRequests(updated); localStorage.setItem("suraj_portfolio_db", JSON.stringify(updated)); }} style={{ background: "#4ade80", border: "none", color: "#000", padding: "2px 6px", borderRadius: "4px", fontWeight: "bold", cursor: "pointer" }}>Approve</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div style={{ background: "rgba(5,7,12,0.5)", border: "1px solid #38bdf8", padding: "15px", borderRadius: "12px" }}>
+                  <h4 style={{ color: "#38bdf8", margin: "0 0 12px 0", fontSize: "14px" }}>Clearance Verified Node: {currentUserEmail}</h4>
+                  {availableDocs.map((doc) => {
+                    const userReq = allRequests.find(r => r.userEmail === currentUserEmail && r.fileName === doc.fileName);
+                    return (
+                      <div key={doc.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.05)", paddingBottom: "6px" }}>
+                        <span style={{ color: "#e2e8f0", fontSize: "13px" }}>{doc.label}</span>
+                        {!userReq ? (
+                          <button onClick={() => { const newReq: RequestItem = { id: "req_" + Date.now(), userEmail: currentUserEmail, docLabel: doc.label, fileName: doc.fileName, status: "pending", timestamp: "2026" }; const updated = [newReq, ...allRequests]; setAllRequests(updated); localStorage.setItem("suraj_portfolio_db", JSON.stringify(updated)); }} style={{ background: "transparent", color: "#38bdf8", border: "1px solid #38bdf8", borderRadius: "6px", padding: "4px 8px", fontSize: "11px", cursor: "pointer" }}>Request Access</button>
+                        ) : (
+                          <div>
+                            {userReq.status === "approved" ? (
+                              <button onClick={() => window.open(`/Portfolio/${doc.fileName}`, "_blank")} style={{ background: "#4ade80", color: "#000", border: "none", borderRadius: "6px", padding: "4px 10px", fontSize: "11px", fontWeight: "bold", cursor: "pointer" }}>Download</button>
+                            ) : (
+                              <span style={{ color: "#fbbf24", fontSize: "11px", fontWeight: "bold" }}>⏳ Pending Admin</span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </div>
+      </div>
 
-        <div style={{ marginTop: "40px", borderTop: "1px solid #1e293b", paddingTop: "15px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h2 style={{ fontSize: "13px", margin: 0, color: "#64748b" }}>System Platform Architecture by <span>Suraj Singh Jadon</span></h2>
-          <h5 style={{ margin: 0, color: "#475569" }}><MdCopyright /> 2026</h5>
+      {/* LOWER GRID MODULES: PUBLIC VERIFIED CERTIFICATES HUB */}
+      <div style={{ maxWidth: "1040px", margin: "30px auto 0 auto", background: "linear-gradient(145deg, #0e1426 0%, #050811 100%)", padding: "25px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.04)" }}>
+        <h4 style={{ margin: "0 0 15px 0", color: "#94a3b8", fontSize: "14px", textTransform: "uppercase", letterSpacing: "0.5px" }}>🎓 Public Achievements & Verifications Matrix</h4>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "12px" }}>
+          {publicCertificates.map((cert, index) => (
+            <a key={index} href={`/Portfolio/${cert.file}`} target="_blank" rel="noreferrer" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 16px", background: "#0c101d", border: "1px solid rgba(255,255,255,0.05)", borderRadius: "12px", color: "#f8fafc", textDecoration: "none", fontSize: "13px", fontWeight: "bold" }}>
+              <span>🏆 {cert.label}</span>
+              <span style={{ color: "#38bdf8" }}>↗</span>
+            </a>
+          ))}
         </div>
       </div>
     </div>
