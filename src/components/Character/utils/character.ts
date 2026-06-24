@@ -10,14 +10,17 @@ const setCharacter = (
 ) => {
   const loader = new GLTFLoader();
   const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath("/draco/");
+  
+  // 🎯 FIXED PATH: Draco decoder ka path sahi kiya
+  dracoLoader.setDecoderPath("/Portfolio/draco/");
   loader.setDRACOLoader(dracoLoader);
 
   const loadCharacter = () => {
     return new Promise<GLTF | null>(async (resolve, reject) => {
       try {
+        // 🎯 FIXED PATH: Encrypted 3D model file ka path subfolder ke hisaab se sahi kiya
         const encryptedBlob = await decryptFile(
-          "/models/character.enc?v=2",
+          "/Portfolio/models/character.enc?v=2",
           "MyCharacter12"
         );
         const blobUrl = URL.createObjectURL(new Blob([encryptedBlob]));
